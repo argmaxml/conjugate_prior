@@ -81,34 +81,3 @@ class BetaBinomial:
         plt.plot(x, y)
         plt.xlim((l,u))
 
-
-if __name__ == "__main__":
-    def dataframe2stats(df):
-        total_clicks = df["clicks"].sum()
-        total_cost = (df["usd_per_click"] * df["clicks"]).sum() * 100.0 / total_clicks
-        total_impr = df["impressions"].sum()
-        return total_cost, total_clicks, total_impr
-
-    import sys
-    import pandas as pd
-    fname = "histo_201708260600_201708280545.tsv"#sys.argv[1]
-    reference_key = "server"
-    reference_val = "BF_P2"
-    test_val      = "BF_P1"
-    df = pd.DataFrame.from_csv(fname, index_col=None, sep="\t")
-    #df=df[(df.ts==700) & (df.dt==20170827)]
-    df_reference = df[df[reference_key]==reference_val]
-    df_test = df[df[reference_key]==test_val]
-    ref_cost, ref_clicks, ref_impr = dataframe2stats(df_reference)
-    test_cost, test_clicks, test_impr = dataframe2stats(df_test)
-    ref_ctr = float(ref_clicks) / ref_impr
-    print ("Cost: Ref: {r}, Test: {t}".format(r=ref_cost, t=test_cost))
-    print ("Clicks: Ref: {r}, Test: {t}".format(r=ref_clicks, t=test_clicks))
-    print ("Impressions: Ref: {r}, Test: {t}".format(r=ref_impr, t=test_impr))
-    cost_model = GammaExponential(ref_cost).update(test_clicks, test_cost*test_clicks)
-    ctr_model = BetaBinomial(ref_ctr).update(test_clicks, test_impr - test_clicks)
-    cost_delta = 0.01
-    ctr_delta = 0.001
-    cost_model_p = cost_model.posterior(ref_cost - cost_delta, ref_cost + cost_delta)
-    ctr_model_p = ctr_model.posterior(ref_ctr- ctr_delta, ref_ctr + ctr_delta)
-    print ("Ctr diff = {ctr}, cost diff = {cost}".format(cost=cost_model_p, ctr=ctr_model_p))
