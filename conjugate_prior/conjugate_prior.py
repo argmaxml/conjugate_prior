@@ -1,6 +1,9 @@
 import numpy as np
 from scipy import stats
+from scipy import special as stats_fn
 from matplotlib import pyplot as plt
+import collections, itertools
+from operator import itemgetter as at
 
 
 class GammaExponential:
@@ -10,7 +13,7 @@ class GammaExponential:
             print ("Assuming first parameter is the Expectancy")
             lamda = 1.0/alpha
             beta = 0.5
-            alpha = lamda * beta 
+            alpha = lamda * beta
         self.alpha = alpha
         self.beta = beta
     def update(self, *args):
@@ -40,6 +43,15 @@ class GammaExponential:
         y=list(reversed(y))
         plt.plot(x, y)
         plt.xlim((l,u))
+
+class GammaPoisson(GammaExponential):
+    def update(self, *args):
+        if len(args) == 1:
+            return GammaPoisson(self.alpha + sum(args[0])), self.beta + len(args[0])
+        elif len(args) == 2:
+            return GammaPoisson(self.alpha + args[0], self.beta + args[1])
+        else:
+            raise SyntaxError("Illegal number of arguments")
 
 class BetaBinomial:
     __slots__ = ["T", "F"]
@@ -81,3 +93,41 @@ class BetaBinomial:
         plt.plot(x, y)
         plt.xlim((l,u))
 
+class BetaBernoulli(BetaBinomial):
+    def update(self, *args):
+        if len(args)==1:
+            n = p = 0
+            for x in args[0]:
+                if x:
+                    p += 1
+                else:
+                    n += 1
+            return BetaBernoulli(self.T + p, self.F + n)
+        elif len(args)==2:
+            return BetaBernoulli(self.T + args[0], self.F + args[1])
+        else:
+            raise SyntaxError("Illegal number of arguments")
+
+class DirichletMultinomial:
+    __slots__ = ["alpha", "k", "pdf"]
+    def __init__(self, alpha=None):
+        if type(alpha)==int:
+            self.k = alpha
+            self.alpha = np.ones(alpha)
+        elif len(alpha)>1:
+            self.k = len(alpha)
+            self.alpha = np.array(alpha)
+        else:
+            raise SyntaxError("Argument should be a vector or an int")
+    def update(self, counts):
+        if isinstance(counts, list)
+            counts = collections.Counter(counts)
+        if not isinstance(counts, dict):
+            raise SyntaxError("Argument should be a dict or a list")
+        counts_vec = [counts.get(i,0) for i in range(self.k)]
+        return DirichletMultinomial(np.add(self.alpha, counts_vec))
+    def pdf(self, x):
+        diri = stats.dirichlet(self.alpha)
+        return diri.pdf(x)
+    def mean(self, n=1):
+        return self.alpha * n / (self.alpha.sum())
