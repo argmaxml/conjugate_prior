@@ -99,11 +99,11 @@ class BetaBinomial:
         y=y/y.sum()
         plt.plot(x, y)
         plt.xlim((l,u))
-    def predict(self, k, n, log=False):
+    def predict(self, t, f, log=False):
         a = self.T
         b = self.F
-        log_pmf = (fn.gammaln(n+1) + fn.gammaln(k+a) + fn.gammaln(n-k+b) + fn.gammaln(a+b)) - \
-        (fn.gammaln(k+1) + fn.gammaln(n-k+1) + fn.gammaln(a) + fn.gammaln(b) + fn.gammaln(n+a+b))
+        log_pmf = (fn.gammaln(t+f+1) + fn.gammaln(t+a) + fn.gammaln(f+b) + fn.gammaln(a+b)) - \
+        (fn.gammaln(t+1) + fn.gammaln(f+1) + fn.gammaln(a) + fn.gammaln(b) + fn.gammaln(t+f+a+b))
         if log:
             return log_pmf
         return np.exp(log_pmf)
@@ -124,7 +124,7 @@ class BetaBernoulli(BetaBinomial):
             raise SyntaxError("Illegal number of arguments")
 
 class DirichletMultinomial:
-    __slots__ = ["alpha", "k", "pdf"]
+    __slots__ = ["alpha", "k"]
     def __init__(self, alpha=None):
         if type(alpha)==int:
             self.k = alpha
@@ -135,7 +135,7 @@ class DirichletMultinomial:
         else:
             raise SyntaxError("Argument should be a vector or an int")
     def update(self, counts):
-        if isinstance(counts, list)
+        if isinstance(counts, list):
             counts = collections.Counter(counts)
         if not isinstance(counts, dict):
             raise SyntaxError("Argument should be a dict or a list")

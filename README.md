@@ -16,9 +16,11 @@ https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions
 ## Coin flip example:
 
     from conjugate_prior import BetaBinomial
-    heads = 100
-    tails = 200
+    heads = 95
+    tails = 105
     prior_model = BetaBinomial() #Uninformative prior
     updated_model = prior_model.update(heads, tails)
     credible_interval = updated_model.posterior(0.45, 0.55)
     print ("There's {p:.2f}% chance that the coin is fair".format(p=credible_interval*100))
+    predictive = updated_model.predict(50, 50)
+    print ("The chance of flipping 50 Heads and 50 Tails in 100 trials is {p:.2f}%".format(p=predictive*100))
