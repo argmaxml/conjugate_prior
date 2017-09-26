@@ -28,7 +28,7 @@ class NormalNormalKnownVar:
         mean = np.mean(data)
         n = len(data)
         denom = (1/(self.var * n) + 1/var)
-        return NormalNormalKnownVar((self.mean/(self.var * n) + mean/var) / denom, 1.0 / (denom * n), self.var + var)
+        return NormalNormalKnownVar((self.mean/(self.var * n) + mean/var) / denom, 1.0 / (denom * n), self.data_var + var)
     def cdf(self, x):
         return stats.norm.cdf(x, self.mean, self.var)
     def posterior(self, l, u):
