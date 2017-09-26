@@ -146,3 +146,15 @@ class DirichletMultinomial:
         return diri.pdf(x)
     def mean(self, n=1):
         return self.alpha * n / (self.alpha.sum())
+    def cdf(self, weights, x):
+        Omega = lambda row: np.dot(weights, row)
+        # Sample from Dirichlet posterior
+        samples = np.random.dirichlet(self.alpha, 100000)
+        # apply sum to sample draws
+        W_samples = np.apply_along_axis(Omega, 1, samples)
+        #Compute P(W > x)
+        return (W_samples > x).mean()
+    def posterior(self, weights, l, u):
+        if l>u:
+            return 0.0
+        return self.cdf(weights, u)-self.cdf(weights, l)
