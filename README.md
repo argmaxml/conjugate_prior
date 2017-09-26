@@ -14,7 +14,9 @@ https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions
   1. BetaBernoulli - Same as above.
   1. GammaExponential - Useful for churn-rate analysis, cost, dwell-time.
   1. GammaPoisson - Useful for time passed until event, as above.
-  1. NormalNormalKnownVar - Useful for modelling a centralized distribution with constant noise.
+  1. NormalNormalKnownVar - Useful for modeling a centralized distribution with constant noise.
+  1. InvGammaNormalKnownMean - Useful for modeling the effect of a noise.
+  1. InvGammaWeibullKnownShape - Useful for reasoning about particle sizes over time.
   1. DirichletMultinomial - Extension of BetaBinomial to more than 2 types of events (Limited support).
 
 ## Coin flip example:
