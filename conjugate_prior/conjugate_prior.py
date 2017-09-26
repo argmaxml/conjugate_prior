@@ -60,8 +60,11 @@ class GammaPoisson(GammaExponential):
 class BetaBinomial:
     __slots__ = ["T", "F"]
     def __init__(self, *args):
-        if len(args)==1:
-            #assuming ctr
+        if not any(args):
+            #uninformative prior
+            self.T = self.F = 1
+        elif len(args)==1:
+            #assuming rate
             self.T = args[0]*100.0
             self.F = (1-args[0])*100.0
         elif len(args)==2:
