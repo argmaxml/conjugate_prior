@@ -1,6 +1,6 @@
 import numpy as np
 from scipy import stats
-from scipy import special as stats_fn
+from scipy import special as fn
 from matplotlib import pyplot as plt
 import collections, itertools
 from operator import itemgetter as at
@@ -43,6 +43,8 @@ class GammaExponential:
         y=list(reversed(y))
         plt.plot(x, y)
         plt.xlim((l,u))
+    def predict(self, x):
+        return stats.lomax.cdf(1.0/x, self.alpha, scale=1.0/self.beta)
 
 class GammaPoisson(GammaExponential):
     def update(self, *args):
@@ -52,6 +54,8 @@ class GammaPoisson(GammaExponential):
             return GammaPoisson(self.alpha + args[0], self.beta + args[1])
         else:
             raise SyntaxError("Illegal number of arguments")
+    def predict(self, x):
+        return stats.nbinom.pmf(x, self.alpha, scale=1.0/(1+self.beta))
 
 class BetaBinomial:
     __slots__ = ["T", "F"]
@@ -92,6 +96,14 @@ class BetaBinomial:
         y=y/y.sum()
         plt.plot(x, y)
         plt.xlim((l,u))
+    def predict(self, k, n, log=False):
+        a = self.T
+        b = self.F
+        log_pmf = (fn.gammaln(n+1) + fn.gammaln(k+a) + fn.gammaln(n-k+b) + fn.gammaln(a+b)) - \
+        (fn.gammaln(k+1) + fn.gammaln(n-k+1) + fn.gammaln(a) + fn.gammaln(b) + fn.gammaln(n+a+b))
+        if log:
+            return log_pmf
+        return np.exp(log_pmf)
 
 class BetaBernoulli(BetaBinomial):
     def update(self, *args):
