@@ -28,6 +28,8 @@ class InvGammaNormalKnownMean:
         n = len(data)
         beta_update = sum([(d-mean)**2 for d in data])/2.0
         return NormalNormalKnownMean(self.alpha+n/2.0, self.beta + beta_update)
+    def pdf(self, x):
+        return stats.invgamma.pdf(x,a=self.alpha,scale=self.beta)
     def cdf(self, x):
         return stats.invgamma.cdf(x,a=self.alpha,scale=self.beta)
     def posterior(self, l, u):

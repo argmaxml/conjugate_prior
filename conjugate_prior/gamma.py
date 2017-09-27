@@ -23,6 +23,8 @@ class GammaExponential:
             return GammaExponential(self.alpha + args[0], self.beta + args[1])
         else:
             raise SyntaxError("Illegal number of arguments")
+    def pdf(self, x):
+        return stats.gamma.pdf(1.0/x, self.alpha, scale=1.0/self.beta)
     def cdf(self, x):
         return 1-stats.gamma.cdf(1.0/x, self.alpha, scale=1.0/self.beta)
     def posterior(self, l, u):

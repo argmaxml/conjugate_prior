@@ -34,6 +34,8 @@ class BetaBinomial:
             return BetaBinomial(self.T + args[0], self.F + args[1])
         else:
             raise SyntaxError("Illegal number of arguments")
+    def pdf(self, x):
+        return stats.beta.pdf(x, self.T, self.F)
     def cdf(self, x):
         return stats.beta.cdf(x, self.T, self.F)
     def posterior(self, l, u):
