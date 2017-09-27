@@ -3,10 +3,7 @@ from scipy import stats
 from scipy import special as fn
 import collections, itertools
 from operator import itemgetter as at
-try:
-    from matplotlib import pyplot as plt
-except:
-    plt = None
+
 
 class DirichletMultinomial:
     __slots__ = ["alpha", "k"]

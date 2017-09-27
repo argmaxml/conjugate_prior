@@ -9,29 +9,18 @@ except:
     plt = None
 
 class NormalNormalKnownVar:
-    __slots__ = ["mean", "var", "data_var"]
-    def __init__(self, *args):
-        self.mean = 0
-        self.data_var = 0
-        if not any(args):
-            self.var = 1
-        elif len(args)==1:
-            self.var = args[0]
-        elif len(args)==2:
-            self.mean = args[0]
-            self.var = args[1]
-        elif len(args)==3:
-            self.mean = args[0]
-            self.var = args[1]
-            self.data_var = args[2]
-        else:
-            raise SyntaxError("Illegal number of arguments")
+    __slots__ = ["mean", "var", "known_var"]
+    def __init__(self, known_var, prior_mean=0, prior_var=1):
+        self.mean = prior_mean
+        self.var = prior_var
+        self.known_var = known_var
     def update(self, data):
+        data = np.log(data)
         var = np.var(data)
         mean = np.mean(data)
         n = len(data)
-        denom = (1/(self.var * n) + 1/var)
-        return NormalNormalKnownVar((self.mean/(self.var * n) + mean/var) / denom, 1.0 / (denom * n), self.data_var + var)
+        denom = (1.0/self.var + n/self.known_var)
+        return NormalNormalKnownVar(self.known_var, (self.mean/self.var  + sum(data)/self.known_var) / denom, 1.0 / denom )
     def pdf(self, x):
         return stats.norm.pdf(x, self.mean, self.var)
     def cdf(self, x):
@@ -47,4 +36,15 @@ class NormalNormalKnownVar:
         plt.plot(x, y)
         plt.xlim((l,u))
     def predict(self, x):
-        return stats.norm.cdf(x, self.mean, self.var + self.data_var)
+        return stats.norm.cdf(x, self.mean, self.var + self.known_var)
+
+class NormalLogNormalKnownVar(NormalNormalKnownVar):
+    def update(self, data):
+        data = np.log(data)
+        var = np.var(data)
+        mean = np.mean(data)
+        n = len(data)
+        denom = (1.0/self.var + n/self.known_var)
+        return NormalLogNormalKnownVar(self.known_var, (self.mean/self.var  + sum(data)/self.known_var) / denom, 1.0 / denom )
+    def predict(self, x):
+        raise NotImplemented("No posterior predictive")
