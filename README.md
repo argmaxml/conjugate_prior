@@ -21,8 +21,9 @@ https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions
 
 ## Basic API
   1. `model = GammaExponential(a, b)` - A Bayesian model with an `Exponential` likelihood, and a `Gamma` prior. Where `a` and `b` are the prior parameters.
-  1. `model.pdf(x)` - Returns the probability-density-function of the prior function at `x`
-  1. `model.cdf(x)` - Returns the cumulative-density-function of the prior function at `x`
+  1. `model.pdf(x)` - Returns the probability-density-function of the prior function at `x`.
+  1. `model.cdf(x)` - Returns the cumulative-density-function of the prior function at `x`.
+  1. `model.mean()` - Returns the prior mean.
   1. `model.plot(l, u)` - Plots the prior distribution between `l` and `u`.
   1. `model.posterior(l, u)` - Returns the credible interval on `(l,u)` (equivalent to `cdf(u)-cdf(l)`).
   1. `model.update(data)` - Returns a *new* model after observing `data`.
