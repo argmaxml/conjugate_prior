@@ -27,7 +27,7 @@ https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions
   1. `model.plot(l, u)` - Plots the prior distribution between `l` and `u`.
   1. `model.posterior(l, u)` - Returns the credible interval on `(l,u)` (equivalent to `cdf(u)-cdf(l)`).
   1. `model.update(data)` - Returns a *new* model after observing `data`.
-  1. `model.predict(x)` - Predicts the likelihood of observing `x` (if Posterior predictive exists).
+  1. `model.predict(x)` - Predicts the likelihood of observing `x` (if a posterior predictive exists).
 
 
 
