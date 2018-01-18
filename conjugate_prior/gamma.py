@@ -35,7 +35,7 @@ class GammaExponential:
             return 0.0
         return self.cdf(u)-self.cdf(l)
     def mean(self):
-        return self.beta / self.alpha
+        return self.alpha / self.beta
     def plot(self, l=0, u=10):
         x = np.linspace(u, l, 1001)
         y = stats.gamma.pdf(x,self.alpha, scale=1.0/self.beta)
