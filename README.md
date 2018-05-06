@@ -1,13 +1,14 @@
-# conjugate_prior
+# Conjugate Prior
 Python implementation of the conjugate prior table for Bayesian Statistics
 
+[![Downloads](http://pepy.tech/badge/conjugate-prior)](http://pepy.tech/count/conjugate-prior)
 
 See wikipedia page:
 
 https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions
 
 ## Installation:
-`pip install conjugate_prior`
+`pip install conjugate-prior`
 
 ## Supported Models:
   1. BetaBinomial - Useful for independent trials such as click-trough-rate (ctr), web visitor conversion.
