@@ -39,4 +39,4 @@ class DirichletMultinomial:
     def posterior(self, weights, l, u):
         if l>u:
             return 0.0
-        return self.cdf(weights, u)-self.cdf(weights, l)
+        return self.cdf(weights, l)-self.cdf(weights, u)
