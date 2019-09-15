@@ -8,7 +8,7 @@ setup(
           'numpy',
           'matplotlib',
   ],
-  version = '0.29',
+  version = '0.3',
   description = 'Bayesian Statistics conjugate prior distributions',
   author = 'Uri Goren',
   author_email = 'uri@goren4u.com',
