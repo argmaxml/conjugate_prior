@@ -5,7 +5,9 @@ import collections, itertools
 from operator import itemgetter as at
 try:
     from matplotlib import pyplot as plt
-except:
+except ModuleNotFoundError:
+    import sys
+    sys.stderr.write("matplotlib was not found, plotting would raise an exception.\n")
     plt = None
 
 class NormalNormalKnownVar:
