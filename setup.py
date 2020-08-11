@@ -13,7 +13,7 @@ setup(
     ],
     long_description=readme,
     long_description_content_type="text/markdown",
-    version='0.34',
+    version='0.35',
     description='Bayesian Statistics conjugate prior distributions',
     author='Uri Goren',
     author_email='uri@goren4u.com',
