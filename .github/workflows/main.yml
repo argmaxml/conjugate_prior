@@ -21,10 +21,6 @@ jobs:
           PYPI_USERNAME: ${{ secrets.pypi_username }}
           PYPI_PASSWORD: ${{ secrets.pypi_password }}
         run: |
-         printf("[distutils]\nindex-servers =\n\tpypi\n\n[pypi]\nrepository: https://upload.pypi.org/legacy/\nusername: ${PYPI_USERNAME}\npassword: ${PYPI_PASSWORD}")>~/.pypirc
+         printf "[distutils]\nindex-servers =\n\tpypi\n\n[pypi]\nrepository: https://upload.pypi.org/legacy/\nusername: ${PYPI_USERNAME}\npassword: ${PYPI_PASSWORD}">~/.pypirc
          source pypi.sh
-#      - name: Publish a Python distribution to PyPI
-#        uses: pypa/gh-action-pypi-publish@master
-#        with:
-#          user: ${{ secrets.pypi_username }}
-#          password: ${{ secrets.pypi_password }}
+
