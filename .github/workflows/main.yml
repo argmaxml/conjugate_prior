@@ -16,8 +16,15 @@ jobs:
         run: |
           python3 -m pip install --user --upgrade setuptools twine wheel
           python3 setup.py sdist
-      - name: Publish a Python distribution to PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          user: ${{ secrets.pypi_username }}
-          password: ${{ secrets.pypi_password }}
+      - name: pypirc
+        env:
+          PYPI_USERNAME: ${{ secrets.pypi_username }}
+          PYPI_PASSWORD: ${{ secrets.pypi_password }}
+        run: |
+         printf("[distutils]\nindex-servers =\n\tpypi\n\n[pypi]\nrepository: https://upload.pypi.org/legacy/\nusername: ${PYPI_USERNAME}\npassword: ${PYPI_PASSWORD}")>~/.pypirc
+         source pypi.sh
+#      - name: Publish a Python distribution to PyPI
+#        uses: pypa/gh-action-pypi-publish@master
+#        with:
+#          user: ${{ secrets.pypi_username }}
+#          password: ${{ secrets.pypi_password }}
