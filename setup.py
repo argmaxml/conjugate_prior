@@ -1,5 +1,7 @@
 from distutils.core import setup
 
+with open(__file__.replace("setup.py", "README.md"), 'r') as f:
+    readme = f.read()
 setup(
     name='conjugate_prior',
     packages=['conjugate_prior'],
@@ -9,7 +11,9 @@ setup(
         'numpy',
         'matplotlib',
     ],
-    version='0.33',
+    long_description=readme,
+    long_description_content_type="text/markdown",
+    version='0.34',
     description='Bayesian Statistics conjugate prior distributions',
     author='Uri Goren',
     author_email='uri@goren4u.com',
