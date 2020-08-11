@@ -13,9 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build package
-        env: |
-          PYPI_USERNAME: ${{ secrets.pypi_username }}
-          PYPI_PASSWORD: ${{ secrets.pypi_password }}
         run: |
           python3 setup.py sdist
       - name: Publish a Python distribution to PyPI
