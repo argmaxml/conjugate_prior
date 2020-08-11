@@ -6,6 +6,18 @@ jobs:
     name: pypi
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Python
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.8
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build package
+        env: |
+          PYPI_USERNAME: ${{ secrets.pypi_username }}
+          PYPI_PASSWORD: ${{ secrets.pypi_password }}
+        run: |
+          python3 setup.py sdist
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
