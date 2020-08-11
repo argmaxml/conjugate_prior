@@ -22,5 +22,5 @@ jobs:
           PYPI_PASSWORD: ${{ secrets.pypi_password }}
         run: |
          printf "[distutils]\nindex-servers =\n\tpypi\n\n[pypi]\nrepository: https://upload.pypi.org/legacy/\nusername: ${PYPI_USERNAME}\npassword: ${PYPI_PASSWORD}">~/.pypirc
-         source pypi.sh
+         python3 -m twine upload dist/*
 
