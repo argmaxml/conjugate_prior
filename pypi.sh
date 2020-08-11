@@ -1,4 +1,4 @@
 #https://packaging.python.org/tutorials/distributing-packages/
 rm -rf dist
-python setup.py sdist
-twine upload dist/*
+python3 setup.py sdist
+python3 -m twine upload dist/*
