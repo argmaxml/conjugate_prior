@@ -1,10 +1,16 @@
 from distutils.core import setup
+import os, re
+
+__name__ = 'conjugate_prior'
+with open(__file__.replace("setup.py", __name__ + os.sep + "__init__.py"), 'r') as f:
+    version = re.findall(r"__version__\s*=\s*['\"]([\d.]+)['\"]", f.read())[0]
 
 with open(__file__.replace("setup.py", "README.md"), 'r') as f:
     readme = f.read()
+
 setup(
-    name='conjugate_prior',
-    packages=['conjugate_prior'],
+    name=__name__,
+    packages=[__name__],
     install_requires=[
         'setuptools',
         'scipy',
@@ -13,7 +19,7 @@ setup(
     ],
     long_description=readme,
     long_description_content_type="text/markdown",
-    version='0.4',
+    version=version,
     description='Bayesian Statistics conjugate prior distributions',
     author='Uri Goren',
     author_email='uri@goren.ml',

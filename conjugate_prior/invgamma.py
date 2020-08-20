@@ -53,7 +53,13 @@ class InvGammaNormalKnownMean:
         plt.plot(x, y)
         plt.xlim((l, u))
 
+    def sample(self, n):
+        raise NotImplementedError()
+
 
 class InvGammaWeibullKnownShape(InvGammaNormalKnownMean):
     def update(self, data):
         return InvGammaWeibullKnownShape(self.alpha + len(data), self.beta + sum([d ** self.shape for d in data]))
+
+    def sample(self, n):
+        raise NotImplementedError()

@@ -44,3 +44,6 @@ class DirichletMultinomial:
         if l > u:
             return 0.0
         return self.cdf(weights, l) - self.cdf(weights, u)
+
+    def sample(self, n):
+        raise NotImplementedError()
