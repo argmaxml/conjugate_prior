@@ -1,11 +1,13 @@
 from distutils.core import setup
-import os, re
+import re
+from pathlib import Path
 
 __name__ = 'conjugate_prior'
-with open(__file__.replace("setup.py", __name__ + os.sep + "__init__.py"), 'r') as f:
+__path__ = Path(__file__).parent.absolute()
+with (__path__/__name__/"__init__py").open('r') as f:
     version = re.findall(r"__version__\s*=\s*['\"]([\d.]+)['\"]", f.read())[0]
 
-with open(__file__.replace("setup.py", "README.md"), 'r') as f:
+with (__path__/"README.md").open('r') as f:
     readme = f.read()
 
 setup(
