@@ -7,8 +7,11 @@ __path__ = Path(__file__).parent.absolute()
 with (__path__/__name__/"__init__py").open('r') as f:
     version = re.findall(r"__version__\s*=\s*['\"]([\d.]+)['\"]", f.read())[0]
 
-with (__path__/"README.md").open('r') as f:
-    readme = f.read()
+try:
+    with (__path__/"README.md").open('r') as f:
+        readme = f.read()
+except FileNotFoundError:
+    readme = ""
 
 setup(
     name=__name__,
