@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name=__name__,
+    name="conjugate_prior",
     packages=["conjugate_prior"],
     install_requires=[
         'setuptools',
