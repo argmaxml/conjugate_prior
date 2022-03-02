@@ -65,4 +65,4 @@ class NormalLogNormalKnownVar(NormalNormalKnownVar):
         raise NotImplemented("No posterior predictive")
 
     def sample(self):
-        raise np.log(np.random.normal(self.mean, np.sqrt(self.var + self.known_var)))
+        return np.log(np.random.normal(self.mean, np.sqrt(self.var + self.known_var)))
