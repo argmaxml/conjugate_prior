@@ -45,3 +45,24 @@ https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions
     print ("There's {p:.2f}% chance that the coin is fair".format(p=credible_interval*100))
     predictive = updated_model.predict(50, 50)
     print ("The chance of flipping 50 Heads and 50 Tails in 100 trials is {p:.2f}%".format(p=predictive*100))
+
+## Variant selection with Multi-armed-bandit
+
+Assume we have `10` creatives (variants) we can choose for our ad campaign, at first we start with the uninformative prior.
+
+After getting feedback (i.e. clicks) from displaying the ads, we update our model.
+
+Then we sample the `DirrechletMultinomial` model for the updated distribution.
+
+    from conjugate_prior import DirichletMultinomial
+    from collections import Counter
+    # Assuming we have 10 creatives
+    model = DirichletMultinomial(10)
+    mle = lambda M:[int(r.argmax()) for r in M]
+    selections = [v for k,v in sorted(Counter(mle(model.sample(100))).most_common())]
+    print("Percentage before 1000 clicks: ",selections)
+    # after a period of time, we got this array of clicks
+    clicks = [400,200,100,50,20,20,10,0,0,200]
+    model = model.update(clicks)
+    selections = [v for k,v in sorted(Counter(mle(model.sample(100))).most_common())]
+    print("Percentage after 1000 clicks: ",selections)

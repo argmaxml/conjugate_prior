@@ -11,7 +11,7 @@ setup(
     ],
     long_description="https://github.com/urigoren/conjugate_prior/blob/master/README.md",
     long_description_content_type="text/markdown",
-    version="0.64",
+    version="0.7",
     description='Bayesian Statistics conjugate prior distributions',
     author='Uri Goren',
     author_email='uri@argmax.ml',
