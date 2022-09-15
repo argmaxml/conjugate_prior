@@ -46,4 +46,4 @@ class DirichletMultinomial:
         return self.cdf(weights, l) - self.cdf(weights, u)
 
     def sample(self, n=1):
-        raise np.random.dirichlet(self.alpha, n)
+        return np.random.dirichlet(self.alpha, n)
