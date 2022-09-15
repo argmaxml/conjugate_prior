@@ -72,8 +72,8 @@ class BetaBinomial:
             return log_pmf
         return np.exp(log_pmf)
 
-    def sample(self, n):
-        p = np.random.beta(self.T, self.F)
+    def sample(self, n=1):
+        p = np.random.beta(self.T, self.F,n)
 
 
 class BetaBernoulli(BetaBinomial):
@@ -91,8 +91,8 @@ class BetaBernoulli(BetaBinomial):
         else:
             raise SyntaxError("Illegal number of arguments")
 
-    def sample(self, output_parameter=False):
-        p = np.random.beta(self.T, self.F)
+    def sample(self, n=1,output_parameter=False):
+        p = np.random.beta(self.T, self.F,n)
         if output_parameter:
             return p
         return int(np.random.random() < p)

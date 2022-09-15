@@ -61,9 +61,9 @@ class GammaExponential:
     def predict(self, x):
         return stats.lomax.cdf(1.0 / x, self.alpha, scale=1.0 / self.beta)
 
-    def sample(self):
+    def sample(self,n=1):
         lamda = np.random.gamma(self.alpha, 1/self.beta)
-        return np.random.exponential(1/lamda)
+        return np.random.exponential(1/lamda,n)
 
 
 class GammaPoisson(GammaExponential):
@@ -78,6 +78,6 @@ class GammaPoisson(GammaExponential):
     def predict(self, x):
         return stats.nbinom.pmf(x, self.alpha, scale=1.0 / (1 + self.beta))
 
-    def sample(self):
+    def sample(self,n=1):
         lamda = np.random.gamma(self.alpha, 1/self.beta)
-        return np.random.poisson(lamda)
+        return np.random.poisson(lamda,n)

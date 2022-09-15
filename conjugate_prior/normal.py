@@ -47,8 +47,8 @@ class NormalNormalKnownVar:
     def predict(self, x):
         return stats.norm.cdf(x, self.mean, np.sqrt(self.var + self.known_var))
 
-    def sample(self):
-        return np.random.normal(self.mean, np.sqrt(self.var + self.known_var))
+    def sample(self,n=1):
+        return np.random.normal(self.mean, np.sqrt(self.var + self.known_var),size=n)
 
 
 class NormalLogNormalKnownVar(NormalNormalKnownVar):
@@ -64,5 +64,5 @@ class NormalLogNormalKnownVar(NormalNormalKnownVar):
     def predict(self, x):
         raise NotImplemented("No posterior predictive")
 
-    def sample(self):
-        return np.log(np.random.normal(self.mean, np.sqrt(self.var + self.known_var)))
+    def sample(self,n=1):
+        return np.log(np.random.normal(self.mean, np.sqrt(self.var + self.known_var)),size=n)
