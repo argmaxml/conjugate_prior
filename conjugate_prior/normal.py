@@ -18,10 +18,13 @@ class NormalNormalKnownVar:
         self.var = prior_var
         self.known_var = known_var
 
-    def update(self, data):
-        var = np.var(data)
-        mean = np.mean(data)
-        n = len(data)
+    def update(self, data, var=None, n=None):
+        if var:
+            mean=data
+        else:
+            var = np.var(data)
+            mean = np.mean(data)
+            n = len(data)
         denom = (1.0 / self.var + n / self.known_var)
         return NormalNormalKnownVar(self.known_var, (self.mean / self.var + sum(data) / self.known_var) / denom,
                                     1.0 / denom)
