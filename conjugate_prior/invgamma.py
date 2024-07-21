@@ -54,7 +54,12 @@ class InvGammaNormalKnownMean:
         plt.xlim((l, u))
 
     def sample(self, n):
-        raise NotImplementedError()
+        mean = stats.invgamma.rvs(a=self.alpha, scale=self.beta, size=n)
+        return np.random.normal(mean, self.shape, n)
+    
+    def predict(self, x):
+        return stats.invgamma.cdf(x, a=self.alpha, scale=self.beta)
+
 
 
 class InvGammaWeibullKnownShape(InvGammaNormalKnownMean):
@@ -62,4 +67,8 @@ class InvGammaWeibullKnownShape(InvGammaNormalKnownMean):
         return InvGammaWeibullKnownShape(self.alpha + len(data), self.beta + sum([d ** self.shape for d in data]))
 
     def sample(self, n):
-        raise NotImplementedError()
+        l = stats.invgamma.rvs(a=self.alpha, scale=self.beta, size=n) ** (1 / self.shape)
+        return np.random.weibull(l, n)
+        
+    def predict(self, x):
+        raise NotImplemented("No posterior predictive")
