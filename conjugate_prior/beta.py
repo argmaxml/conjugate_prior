@@ -15,7 +15,7 @@ class BetaBinomial:
     __slots__ = ["positives", "negatives"]
 
     def __init__(self, *args):
-        if not any(args):
+        if not any(args) or args[0] is None:
             # uninformative prior
             self.positives = self.negatives = 1
         elif len(args) == 1:
@@ -28,6 +28,16 @@ class BetaBinomial:
         else:
             raise SyntaxError("Illegal number of arguments")
 
+    def __iadd__(self, other):
+        if isinstance(other, BetaBinomial):
+            self.positives += other.positives
+            self.negatives += other.negatives
+        elif isinstance(other, tuple):
+            self.positives += other[0]
+            self.negatives += other[1]
+        else:
+            raise TypeError("Unsupported type")
+        return self
     def update(self, *args):
         if len(args) == 1:
             n = p = 0

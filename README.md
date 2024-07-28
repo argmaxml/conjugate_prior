@@ -66,3 +66,13 @@ Then we sample the `DirrechletMultinomial` model for the updated distribution.
     model = model.update(clicks)
     selections = [v for k,v in sorted(Counter(mle(model.sample(100))).most_common())]
     print("Percentage after 1000 clicks: ",selections)
+
+## Naive Recommendation System with UCB
+
+  from conjugate_prior import ClickThroughUCB
+  ranker = ClickThroughUCB(prior=0.1) # 10% click-through-rate
+  ranker["cmpgn1"]+=(1,9) # 1 click, 9 skips
+  ranker["cmpgn2"]+=(10,90) # 10 click, 90 skips
+  ranker["cmpgn3"]+=(1,2) # 1 click, 3 skips
+  # Balance exploration and exploitation w/UCB
+  print(ranker.rank_by_ucb())

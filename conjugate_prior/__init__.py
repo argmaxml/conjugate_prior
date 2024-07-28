@@ -3,5 +3,5 @@ from .gamma import *
 from .beta import *
 from .normal import *
 from .invgamma import *
-from .prior import ConjugatePrior
-__version__ = '0.83'
+from .prior import ConjugatePrior, ClickThroughUCB
+__version__ = '0.84'

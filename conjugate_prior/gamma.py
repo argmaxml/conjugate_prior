@@ -21,7 +21,16 @@ class GammaExponential:
             alpha = lamda * beta
         self.alpha = alpha
         self.beta = beta
-
+    def __iadd__(self, other):
+        if isinstance(other, GammaExponential):
+            self.alpha += other.alpha
+            self.beta += other.beta
+        elif isinstance(other, float):
+            self.alpha += 1
+            self.beta += other
+        else:
+            raise TypeError("Unsupported type")
+        return self
     def update(self, *args):
         if len(args) == 1:
             return GammaExponential(self.alpha + len(args[0]), self.beta + sum(args[0]))
