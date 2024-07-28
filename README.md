@@ -69,8 +69,8 @@ Then we sample the `DirrechletMultinomial` model for the updated distribution.
 
 ## Naive Recommendation System with UCB
 
-  from conjugate_prior import ClickThroughUCB
-  ranker = ClickThroughUCB(prior=0.1) # 10% click-through-rate
+  from conjugate_prior import BetaBinomialRanker
+  ranker = BetaBinomialRanker(prior=0.1) # 10% click-through-rate
   ranker["cmpgn1"]+=(1,9) # 1 click, 9 skips
   ranker["cmpgn2"]+=(10,90) # 10 click, 90 skips
   ranker["cmpgn3"]+=(1,2) # 1 click, 3 skips
