@@ -64,6 +64,9 @@ class GammaExponential:
     def sample(self,n=1):
         lamda = np.random.gamma(self.alpha, 1/self.beta)
         return np.random.exponential(1/lamda,n)
+    
+    def percentile(self, p):
+        return stats.gamma.ppf(p, self.alpha, scale=1.0 / self.beta)
 
 
 class GammaPoisson(GammaExponential):

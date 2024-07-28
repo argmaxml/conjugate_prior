@@ -52,6 +52,9 @@ class NormalNormalKnownVar:
 
     def sample(self,n=1):
         return np.random.normal(self.mean, np.sqrt(self.var + self.known_var),size=n)
+    
+    def percentile(self, p):
+        return stats.norm.ppf(p, self.mean, np.sqrt(self.var))
 
 
 class NormalLogNormalKnownVar(NormalNormalKnownVar):

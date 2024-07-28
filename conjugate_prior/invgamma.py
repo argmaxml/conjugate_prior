@@ -59,6 +59,9 @@ class InvGammaNormalKnownMean:
     
     def predict(self, x):
         return stats.invgamma.cdf(x, a=self.alpha, scale=self.beta)
+    
+    def percentile(self, p):
+        return stats.invgamma.ppf(p, a=self.alpha, scale=self.beta)
 
 
 

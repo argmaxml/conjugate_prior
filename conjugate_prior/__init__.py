@@ -4,4 +4,4 @@ from .beta import *
 from .normal import *
 from .invgamma import *
 from .prior import ConjugatePrior
-__version__ = '0.81'
+__version__ = '0.83'

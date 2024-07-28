@@ -47,3 +47,6 @@ class DirichletMultinomial:
 
     def sample(self, n=1):
         return np.random.dirichlet(self.alpha, n)
+    
+    def percentile(self, p):
+        return stats.dirichlet.ppf(p, self.alpha)

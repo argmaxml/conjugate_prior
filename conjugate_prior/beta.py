@@ -12,19 +12,19 @@ except ModuleNotFoundError:
 
 
 class BetaBinomial:
-    __slots__ = ["T", "F"]
+    __slots__ = ["positives", "negatives"]
 
     def __init__(self, *args):
         if not any(args):
             # uninformative prior
-            self.T = self.F = 1
+            self.positives = self.negatives = 1
         elif len(args) == 1:
             # assuming rate
-            self.T = args[0] * 100.0
-            self.F = (1 - args[0]) * 100.0
+            self.positives = args[0] * 100.0
+            self.negatives = (1 - args[0]) * 100.0
         elif len(args) == 2:
-            self.T = args[0]
-            self.F = args[1]
+            self.positives = args[0]
+            self.negatives = args[1]
         else:
             raise SyntaxError("Illegal number of arguments")
 
@@ -36,17 +36,17 @@ class BetaBinomial:
                     p += 1
                 else:
                     n += 1
-            return BetaBinomial(self.T + p, self.F + n)
+            return BetaBinomial(self.positives + p, self.negatives + n)
         elif len(args) == 2:
-            return BetaBinomial(self.T + args[0], self.F + args[1])
+            return BetaBinomial(self.positives + args[0], self.negatives + args[1])
         else:
             raise SyntaxError("Illegal number of arguments")
 
     def pdf(self, x):
-        return stats.beta.pdf(x, self.T, self.F)
+        return stats.beta.pdf(x, self.positives, self.negatives)
 
     def cdf(self, x):
-        return stats.beta.cdf(x, self.T, self.F)
+        return stats.beta.cdf(x, self.positives, self.negatives)
 
     def posterior(self, l, u):
         if l > u:
@@ -54,18 +54,18 @@ class BetaBinomial:
         return self.cdf(u) - self.cdf(l)
 
     def mean(self, n=1):
-        return self.T * n / (self.T + self.F)
+        return self.positives * n / (self.positives + self.negatives)
 
     def plot(self, l=0.0, u=1.0):
         x = np.linspace(u, l, 1001)
-        y = stats.beta.pdf(x, self.T, self.F)
+        y = stats.beta.pdf(x, self.positives, self.negatives)
         y = y / y.sum()
         plt.plot(x, y)
         plt.xlim((l, u))
 
     def predict(self, t, f, log=False):
-        a = self.T
-        b = self.F
+        a = self.positives
+        b = self.negatives
         log_pmf = (fn.gammaln(t + f + 1) + fn.gammaln(t + a) + fn.gammaln(f + b) + fn.gammaln(a + b)) - \
                   (fn.gammaln(t + 1) + fn.gammaln(f + 1) + fn.gammaln(a) + fn.gammaln(b) + fn.gammaln(t + f + a + b))
         if log:
@@ -73,7 +73,11 @@ class BetaBinomial:
         return np.exp(log_pmf)
 
     def sample(self, n=1):
-        p = np.random.beta(self.T, self.F,n)
+        p = np.random.beta(self.positives, self.negatives,n)
+        return p
+    
+    def percentile(self, p):
+        return stats.beta.ppf(p, self.positives, self.negatives)
 
 
 class BetaBernoulli(BetaBinomial):
@@ -85,14 +89,14 @@ class BetaBernoulli(BetaBinomial):
                     p += 1
                 else:
                     n += 1
-            return BetaBernoulli(self.T + p, self.F + n)
+            return BetaBernoulli(self.positives + p, self.negatives + n)
         elif len(args) == 2:
-            return BetaBernoulli(self.T + args[0], self.F + args[1])
+            return BetaBernoulli(self.positives + args[0], self.negatives + args[1])
         else:
             raise SyntaxError("Illegal number of arguments")
 
     def sample(self, n=1,output_parameter=False):
-        p = np.random.beta(self.T, self.F,n)
+        p = np.random.beta(self.positives, self.negatives,n)
         if output_parameter:
             return p
         return int(np.random.random() < p)
